@@ -15,31 +15,51 @@
     }
   </style>
   <script>
-    function printImage(url,data) {
+    function printCard(data) {
       var div = document.querySelector('#result');
-      var p = document.createElement('p');
-      p.innerText = url;
-      div.appendChild(p);
+      var div1 = document.createElement('div');
+      var h3 = document.createElement('h3');
+      var p1 = document.createElement('p');
+      var p2 = document.createElement('p');
+      var p3 = document.createElement('p');
+      var p4 = document.createElement('p');
+      var p5 = document.createElement('p');
+      h3.innerHTML = data.DeviceName;
+      p1.innerHTML = data.battery_c;
+      p2.innerHTML = data.card_slot;
+      p3.innerHTML = data.chipset;
+      p4.innerHTML = data.internal;
+      p5.innerHTML = data.sensors;
+      div1.appendChild(h3);
+      div1.appendChild(p1);
+      div1.appendChild(p2);
+      div1.appendChild(p3);
+      div1.appendChild(p4);
+      div1.appendChild(p5);
+      div.appendChild(div1);
     }
 
     function doAjax() {
-      var search = document.querySelector('#searchtxt').value;
+      // var search = document.querySelector('#searchtxt').value;
+      var brand = document.querySelector('#brand').value;
+      var device = document.querySelector('#device').value;
       //  var url=`http://api.giphy.com/v1/gifs/search?api_key=ENTERYOURAPIKEY&q=${search}&limit=5`;
-      var url = "https://fonoapi.freshpixl.com/v1/getdevice?token=f366f6166e250c97f468f3320a252d38d884e195257ce189&device=J4&brand=samsung";
+      var url = `https://fonoapi.freshpixl.com/v1/getdevice?token=f366f6166e250c97f468f3320a252d38d884e195257ce189&device=${device}&brand=${brand}`;
 
       var promise = fetch(url);
+
+      document.querySelector('#result').innerHTML = '';
 
       promise.then(response => {
         response.json().then(data => {
           console.log("data is ", data);
-          for (let img of data) {
-            console.log(img.DeviceName);
+          for (let phone of data) {
+            console.log(phone);
+            printCard(phone);
 
-            let url = img.DeviceName;
-            printImage(url);
           }
 
-}).catch(e => console.log("invalid json", e));
+        }).catch(e => console.log("invalid json", e));
       }).catch(err => console.log("network error", err));
     }
   </script>
@@ -64,18 +84,20 @@
   </div>
   <div class="middle-container">
     <marquee class="move">Search the mobile name:</marquee>
-    <input id='searchtxt' type="text" placeholder="Type to Search" target="_blank">
-    <button onclick="doAjax()" >Search It</button>
+    <input id='brand' type="text" placeholder="Brand_Name" target="_blank">
+    <input id='device' type="text" placeholder="Device_Name" target="_blank">
+
+    <button onclick="doAjax()">Search It</button>
     <div id='result'>
     </div>
-    </div>
-    <div class="bottom-container">
-      <p>Contact Me</p>
-      <a href="">Instagram</a>
-      <a href="">Facebook</a>
-      <a href="">Telegram</a>
-      <p>Created by 2020 @Shubham mobile Specification</p>
-    </div>
+  </div>
+  <div class="bottom-container">
+    <p>Contact Me</p>
+    <a href="">Instagram</a>
+    <a href="">Facebook</a>
+    <a href="">Telegram</a>
+    <p>Created by 2020 @Shubham mobile Specification</p>
+  </div>
 
 
 
